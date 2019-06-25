@@ -66,13 +66,7 @@ function getInterior(points, width, height) {
             }
         }
     }
-    // console.log(interiorList)
-    // interiorList.forEach(elem => {
-    //     console.log(elem[0], elem[1])
-    //     interiorMap[elem[0]][elem[1]] = 2
-    // })
 
-    // console.log(interiorList)
     return interiorList;
 }
 
@@ -81,10 +75,10 @@ function distance(a, b) {
 }
 
 function angle(a, b, c) {
-    length_a = distance(b, c);
-    length_b = distance(a, c);
-    length_c = distance(a, b);
-    return Math.acos((Math.pow(length_b, 2) + Math.pow(length_c, 2) - Math.pow(length_a, 2)) / (2 * length_b * length_c));
+    lengthA = distance(b, c);
+    lengthB = distance(a, c);
+    lengthC = distance(a, b);
+    return Math.acos((Math.pow(lengthB, 2) + Math.pow(lengthC, 2) - Math.pow(lengthA, 2)) / (2 * lengthB * lengthC));
 }
 
 function sum(array) {
@@ -138,11 +132,31 @@ function getDifference(source, target, sourceWidth, targetWidth, offsetY, offset
     return difference;
 }
 
-function composite(source, target, sourceWidth, sourceHeight, targetWidth, targetHeight, offsetY, offsetX, boundary) {
-    let interior = getInterior(boundary, sourceWidth, sourceHeight)
-    console.log(interior)
-    let difference = getDifference(source, target, sourceWidth, targetWidth, offsetY, offsetX, boundary)
-    let meanValue = [];
+function getCompositeResult(sourceImg, targetImg, offsetY, offsetX, boundary) {
+    let sourceCanvas = document.createElement('canvas');
+    let targetCanvas = document.createElement('canvas');
+
+    let sourceContext = sourceCanvas.getContext('2d');
+    let targetContext = targetCanvas.getContext('2d');
+
+    sourceCanvas.width = sourceImg.width;
+    sourceCanvas.height = sourceImg.height;
+    
+    targetCanvas.width = targetImg.width;
+    targetCanvas.height = targetImg.height;
+
+    sourceContext.drawImage(sourceImg, 0, 0);
+    targetContext.drawImage(targetImg, 0, 0);
+
+    let sourceImgData = sourceContext.getImageData(0, 0, sourceCanvas.width, sourceCanvas.height);
+    let source = sourceImgData.data;
+
+    let targetImgData = targetContext.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
+    let target = targetImgData.data;
+    
+    let interior = getInterior(boundary, sourceCanvas.width, sourceCanvas.height)
+    
+    let difference = getDifference(source, target, sourceCanvas.width, targetCanvas.width, offsetY, offsetX, boundary)
 
     console.log(target)
 
@@ -151,8 +165,7 @@ function composite(source, target, sourceWidth, sourceHeight, targetWidth, targe
     // r(x) respectively for R, G, B.
     let rR, rG, rB, indexS, indexT;
     for (let i = 0; i < interior.length; i++) {
-        meanValue = getMeanValueCoordinates(boundary, interior[i]);
-        // console.log(interior[i])
+        let meanValue = getMeanValueCoordinates(boundary, interior[i]);
         rR = 0;
         rG = 0;
         rB = 0;
@@ -160,18 +173,13 @@ function composite(source, target, sourceWidth, sourceHeight, targetWidth, targe
             rR += meanValue[j] * difference[0][j];
             rG += meanValue[j] * difference[1][j];
             rB += meanValue[j] * difference[2][j];
-            // console.log(rR, rG, rB);
         }
-        indexS = calculateIndex(interior[i][0], interior[i][1], sourceWidth);
-        indexT = calculateIndex(interior[i][0] + offsetY, interior[i][1] + offsetX, targetWidth);
+        indexS = calculateIndex(interior[i][0], interior[i][1], sourceCanvas.width);
+        indexT = calculateIndex(interior[i][0] + offsetY, interior[i][1] + offsetX, targetCanvas.width);
         result[indexT] = source[indexS] + rR;
         result[indexT + 1] = source[indexS + 1] + rG;
         result[indexT + 2] = source[indexS + 2] + rB;
     }
+
     return result
 }
-
-/* let vertices = [[0, 0], [-200, -50], [-100, 150], [50, 200], [-100, 100]];
-let x = [40, 20];
-
-console.log(calculateCoordinates(vertices, x)); */
