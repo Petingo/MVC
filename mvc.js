@@ -5,13 +5,13 @@ function getInterior(points, width, height) {
     points.forEach(elem => {
         interiorMap[elem[0]][elem[1]] = 1;
     })
-    for (let i = 0; i < points.length - 1; i++) {
+    for (let i = 0; i < points.length; i++) {
 
         let y1 = points[i][0];
         let x1 = points[i][1];
 
-        let y2 = points[i + 1][0];
-        let x2 = points[i + 1][1];
+        let y2 = points[i + 1 == points.length ? 0 : i + 1][0];
+        let x2 = points[i + 1 == points.length ? 0 : i + 1][1];
 
         if (x1 == x2) {
 
@@ -71,7 +71,7 @@ function getInterior(points, width, height) {
     //     interiorMap[elem[0]][elem[1]] = 2
     // })
 
-    // console.log(interiorMap)
+    // console.log(interiorList)
     return interiorList;
 }
 
@@ -125,7 +125,7 @@ function calculateIndex(y, x, width) {
 function getDifference(source, target, sourceWidth, targetWidth, offsetY, offsetX, boundary) {
     let differenceR = [], differenceG = [], differenceB = [];
     let indexS, indexT;
-    console.log(boundary)
+
     for (let i = 0; i < boundary.length; i++) {
         indexS = calculateIndex(boundary[i][0], boundary[i][1], sourceWidth);
         indexT = calculateIndex(boundary[i][0] + offsetY, boundary[i][1] + offsetX, targetWidth);
@@ -134,12 +134,12 @@ function getDifference(source, target, sourceWidth, targetWidth, offsetY, offset
         differenceB.push(target[indexT + 2] - source[indexS + 2]);
     }
     let difference = [differenceR, differenceG, differenceB];
-    // console.log(difference);
     return difference;
 }
 
 function composite(source, target, sourceWidth, sourceHeight, targetWidth, targetHeight, offsetY, offsetX, boundary) {
     let interior = getInterior(boundary, sourceWidth, sourceHeight)
+    
     let difference = getDifference(source, target, sourceWidth, targetWidth, offsetY, offsetX, boundary)
     let meanValue = [];
 

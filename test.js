@@ -23,17 +23,27 @@ targetImg.onload = function(){
 };
 
 function meow(){
-    console.log(sourceImg.width)
-    console.log(sourceImg.height)
-
     let sourceImgData = sourceCtx.getImageData(0, 0, sourceCanvas.width, sourceCanvas.height);
     let source = sourceImgData.data;
 
     let targetImgData = targetCtx.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
     let target = targetImgData.data;
     
-    let boundary = [[100,100], [100,200], [200, 200], [200, 100]]
-    let compositeResult = composite(source, target, sourceImg.width, sourceImg.height, targetImg.width, targetImg.height, 200, 100, boundary)
+    let boundary = []
+    for(let i = 0 ; i <= 300 ; i += 10){
+        boundary.push([0, i])
+    }
+    for(let i = 0 ; i <= 300 ; i += 10){
+        boundary.push([i, 300])
+    }
+    for(let i = 300 ; i >= 0 ; i -= 10){
+        boundary.push([300, i])
+    }
+    for(let i = 300 ; i >= 0 ; i -= 10){
+        boundary.push([i, 0])
+    }
+    // let boundary = [[0, 0], [0, 300], [300, 300], [300, 0]]
+    let compositeResult = composite(source, target, sourceImg.width, sourceImg.height, targetImg.width, targetImg.height, 330, 400, boundary)
     
     // console.log(compositeResult)
     let result = targetCtx.createImageData(targetCanvas.width, targetCanvas.height)
