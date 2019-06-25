@@ -3,8 +3,9 @@ function getInterior(points, width, height) {
     let interiorMap = new Array(height).fill(0).map(() => new Array(width).fill(0));
 
     points.forEach(elem => {
-        interiorMap[elem[0]][elem[1]] = 1;
+        interiorMap[elem[0]][elem[1]] = 2;
     })
+
     for (let i = 0; i < points.length; i++) {
 
         let y1 = points[i][0];
@@ -48,17 +49,17 @@ function getInterior(points, width, height) {
         interiorListTmp = [];
         for (let k = 0; k < width; k++) {
             if (interiorMap[i][k] != 0) {
-                interiorListTmp.push([i, k]);
+                if(interiorMap[i][k] != 2){
+                    interiorListTmp.push([i, k]);
+                }
                 if (flag) {
                     flag = false;
                     interiorList = interiorList.concat(interiorListTmp);
                     break;
-                }
-                else {
+                } else {
                     flag = true;
                 }
-            }
-            else {
+            } else {
                 if (flag) {
                     interiorListTmp.push([i, k]);
                 }
@@ -139,9 +140,13 @@ function getDifference(source, target, sourceWidth, targetWidth, offsetY, offset
 
 function composite(source, target, sourceWidth, sourceHeight, targetWidth, targetHeight, offsetY, offsetX, boundary) {
     let interior = getInterior(boundary, sourceWidth, sourceHeight)
-    
+    console.log(interior)
     let difference = getDifference(source, target, sourceWidth, targetWidth, offsetY, offsetX, boundary)
     let meanValue = [];
+
+    console.log(target)
+
+    let result = new Uint8ClampedArray(target)
 
     // r(x) respectively for R, G, B.
     let rR, rG, rB, indexS, indexT;
@@ -159,11 +164,11 @@ function composite(source, target, sourceWidth, sourceHeight, targetWidth, targe
         }
         indexS = calculateIndex(interior[i][0], interior[i][1], sourceWidth);
         indexT = calculateIndex(interior[i][0] + offsetY, interior[i][1] + offsetX, targetWidth);
-        target[indexT] = source[indexS] + rR;
-        target[indexT + 1] = source[indexS + 1] + rG;
-        target[indexT + 2] = source[indexS + 2] + rB;
+        result[indexT] = source[indexS] + rR;
+        result[indexT + 1] = source[indexS + 1] + rG;
+        result[indexT + 2] = source[indexS + 2] + rB;
     }
-    return target
+    return result
 }
 
 /* let vertices = [[0, 0], [-200, -50], [-100, 150], [50, 200], [-100, 100]];
