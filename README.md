@@ -5,6 +5,9 @@
 
 ![demo](https://github.com/petingo/MVC/raw/master/demo.png)
 
+### 測試圖片
+![composite](https://github.com/petingo/MVC/raw/master/composite.png)
+
 ### 檔案說明
 專案利用 HTML + javascript 完成，其中 pixel 的改動主要依靠 canvas 進行。主要檔案有 `index.html`、`main.js`、`mvc.js`；其中 `index.html` 和 `main.js` 為網頁前端介面與操作邏輯的部分，`mvc.js` 為主要的影像處理演素法實作。
 
