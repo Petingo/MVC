@@ -1,17 +1,137 @@
 <!DOCTYPE html>
-<html>
-    <body>
-        <div>
+<html lang="zh-tw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.4.6/fabric.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            z-index: 1024;
+        }
+
+        /* canvas {
+            box-shadow: 0px 0px 10px black;
+        } */
+
+        .container {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+    </style>
+    <title>Meow</title>
+</head>
+
+<body>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Meow
+                </h1>
+                <h2 class="subtitle">
+                    meow
+                </h2>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <div>
+                    <canvas id="canvas-fg"></canvas>
+                </div>
+                <br/>
+                <div>
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+            <div class="column has-text-centered">
+                <div class="card card-content">
+                    <a class="button is-danger is-fullwidth" id="del-points">
+                        <span>刪除所有點</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                    </a>
+                </div>
+                <br>
+                <div class="card card-content">
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label">
+                            <input class="file-input" type="file" id="bg-input">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    背景圖片
+                                </span>
+                            </span>
+                            <span class="file-name"></span>
+                        </label>
+                    </div>
+                    <br>
+                    <div class="file has-name is-fullwidth">
+                        <label class="file-label">
+                            <input class="file-input" type="file" id="file-input">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    合成圖片
+                                </span>
+                            </span>
+                            <span class="file-name"></span>
+                        </label>
+                    </div>
+                    <hr>
+                    <a class="button is-danger is-fullwidth" id="del">
+                        <span>刪除選中的素材</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                    </a>
+                    <br>
+                    <a class="button is-success is-fullwidth" download="file" id="download">
+                        <span>Download</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-download"></i>
+                        </span>
+                    </a>
+                    <br>
+                    <a class="button is-primary is-fullwidth" id="render">
+                        <span>Render</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="content has-text-centered">
+            <p>Meow.</p>
+        </div>
+    </div>
+
+    <!-- <div>
             <canvas style="width: 400px; height: 301px" id="sourceCanvas"></canvas>
         </div>
         <div>
             <canvas style="width: 1024px; height: 639px" id="targetCanvas"></canvas>
         </div>
         <canvas id="targetImg"></canvas>
-        <button id="btnTest">meow</button>
-    </body>
-    
-    <script src="mvc.js"></script>
-    <script src="test.js"></script>
-    
+        <button id="btnTest">meow</button> -->
+</body>
+
+<script src="mvc.js"></script>
+<!-- <script src="test.js"></script> -->
+<script src="main.js"></script>
+
 </html>

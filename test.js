@@ -23,7 +23,6 @@ targetImg.onload = function(){
 };
 
 function meow(){
-
     // let boundary = [[0, 0], [0, 300], [300, 300], [300, 0]]
     let boundary = []
     for(let i = 0 ; i <= 300 ; i += 10){

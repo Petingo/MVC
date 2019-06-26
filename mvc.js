@@ -45,6 +45,8 @@ function getInterior(points, width, height) {
     let interiorMap = new Array(height).fill(0).map(() => new Array(width).fill(0));
 
     points.forEach(elem => {
+        console.log(elem[0])
+        console.log(elem[1])
         interiorMap[elem[0]][elem[1]] = 2;
     })
 
