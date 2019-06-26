@@ -29,12 +29,14 @@ function meow(){
     for(let i = 0 ; i <= 300 ; i += 10){
         boundary.push([0, i])
     }
-    for(let i = 0 ; i <= 300 ; i += 10){
-        boundary.push([i, 300])
-    }
     for(let i = 300 ; i >= 0 ; i -= 10){
         boundary.push([300, i])
     }
+    
+    for(let i = 0 ; i <= 300 ; i += 10){
+        boundary.push([i, 300])
+    }
+    
     for(let i = 300 ; i >= 0 ; i -= 10){
         boundary.push([i, 0])
     }

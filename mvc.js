@@ -1,3 +1,45 @@
+function polarSort(points){
+    let yMax = -1, yMin = 1e9
+    for(let i = 0 ; i < points.length ; i++){
+        yMax = Math.max(yMax, points[i][0])
+        yMin = Math.min(yMin, points[i][0])
+    }
+
+    let xMax = -1, xMin = 1e9
+    for(let i = 0 ; i < points.length ; i++){
+        xMax = Math.max(xMax, points[i][1])
+        xMin = Math.min(xMin, points[i][1])
+    }
+
+    let centerY = (yMax + yMin) / 2.
+    let centerX = (xMax + xMin) / 2.
+
+    let angles = {}
+
+    let startAng
+    points.forEach(point => {
+        let ang = Math.atan2(point[0] - centerY, point[1] - centerX)
+        if (!startAng) {
+            startAng = ang
+        } else {
+            // ensure that all points are clockwise of the start point
+            if (ang < startAng) {
+                ang += Math.PI * 2;
+            }
+        }
+        angles[[point[0], point[1]]] = ang
+    });
+
+    points.sort(function(a, b) {
+        return angles[a] - angles[b];
+    });
+
+    points = points.reverse();
+
+    return points
+}
+
+
 function getInterior(points, width, height) {
 
     let interiorMap = new Array(height).fill(0).map(() => new Array(width).fill(0));
@@ -153,12 +195,11 @@ function getCompositeResult(sourceImg, targetImg, offsetY, offsetX, boundary) {
 
     let targetImgData = targetContext.getImageData(0, 0, targetCanvas.width, targetCanvas.height);
     let target = targetImgData.data;
-    
-    let interior = getInterior(boundary, sourceCanvas.width, sourceCanvas.height)
-    
-    let difference = getDifference(source, target, sourceCanvas.width, targetCanvas.width, offsetY, offsetX, boundary)
 
-    console.log(target)
+    boundary = polarSort(boundary)
+
+    let interior = getInterior(boundary, sourceCanvas.width, sourceCanvas.height)
+    let difference = getDifference(source, target, sourceCanvas.width, targetCanvas.width, offsetY, offsetX, boundary)
 
     let result = new Uint8ClampedArray(target)
 
