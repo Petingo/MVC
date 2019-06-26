@@ -31,7 +31,7 @@ const canvas = new fabric.Canvas('canvas', {
 const fgCanvas = new fabric.Canvas("canvas-fg");
 
 fgCanvas.on("mouse:up", e => {
-    console.log(e.pointer);
+    // console.log(e.pointer);
     const p = e.pointer;
     boundary.push([Math.round(p.y), Math.round(p.x)]);
     const circle = new fabric.Circle({
